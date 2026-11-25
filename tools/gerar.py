@@ -138,6 +138,45 @@ for i, (t, s, ic) in enumerate(cards):
         body += f'<text class="s" x="{x+cw/2:.0f}" y="{y+ch-52+j*20}" text-anchor="middle">{ln}</text>'
 save("servicos.svg", svg(H, body, "Serviços Worevi"))
 
+# ---------- 2b. ferramentas: oito aquários pequenos, cada um com o ícone da aplicação a flutuar na água ----------
+# Ícones do "Adobe Icon Set 2022" (Figma Community), guardados em tools/icons/*.svg (caixa 240×234, cantos arredondados).
+ICONS = os.path.join(HERE, "icons")
+def app_icon(name):
+    s = open(os.path.join(ICONS, name + ".svg"), encoding="utf-8").read()
+    s = s[s.index(">", s.index("<svg")) + 1:s.rindex("</svg>")]          # só o conteúdo
+    s = re.sub(r'<rect width="240" height="23[45][^>]*fill="#E5E5E5"/>', "", s)  # fundo cinzento do Figma (234 ou 235 de altura)
+    s = re.sub(r"<defs>.*?</defs>", "", s, flags=re.S)                      # clipPath inútil
+    s = re.sub(r' (id|clip-path)="[^"]*"', "", s)
+    s = re.sub(r"\s+", " ", s); s = re.sub(r"> <", "><", s)
+    color = re.search(r'fill="(#[0-9A-Fa-f]{6})"', s).group(1)              # cor da superfície (primeiro path)
+    return s.strip(), color
+tools = [("premiere", "Premiere Pro"), ("aftereffects", "After Effects"), ("photoshop", "Photoshop"), ("lightroom", "Lightroom"),
+         ("illustrator", "Illustrator"), ("indesign", "InDesign"), ("audition", "Audition"), ("figma", "Figma")]
+_st = rnd.getstate()   # para as secções seguintes não mudarem de bolhas
+H = 290; n = len(tools); gap = 16; tw = (W - 112 - (n - 1) * gap) / n; th = 176; ty = 68; isz = 66; isc = isz / 240
+style = ".fl{animation:fl 4.6s ease-in-out infinite}@keyframes fl{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}"
+body = caustics(H, 4) + f'<text class="k" x="56" y="44">FERRAMENTAS</text><text class="k" x="{W-56}" y="44" text-anchor="end">ADOBE CREATIVE CLOUD · FIGMA</text>'
+for i, (file, label) in enumerate(tools):
+    ic, col = app_icon(file); x = 56 + i * (tw + gap)
+    body += f'<clipPath id="f{i}"><rect x="{x:.0f}" y="{ty}" width="{tw:.0f}" height="{th}" rx="18"/></clipPath><g clip-path="url(#f{i})">'
+    body += f'<rect x="{x:.0f}" y="{ty}" width="{tw:.0f}" height="{th}" rx="18" fill="#fff" fill-opacity=".035"/>'
+    # água a meio do aquário, com a cor da aplicação a tingir levemente o fundo
+    wl = ty + th * 0.5
+    body += f'<rect x="{x:.0f}" y="{wl:.0f}" width="{tw:.0f}" height="{th}" fill="{col}" opacity=".18"/>'
+    body += wave_in(x, wl, 5, 150, TEAL2, .3, 6 + i * 0.7, right=True) + wave_in(x, wl, 3, 100, TEAL, .22, 4.5 + i * 0.5, right=False)
+    body += bubbles(5, x + 16, x + tw - 16, ty + th, wl + 4, 1.5, 3.5, (5, 9), .5)
+    # brilho da cor da aplicação por baixo do ícone
+    body += f'<ellipse cx="{x+tw/2:.0f}" cy="{ty+72}" rx="34" ry="30" fill="{col}" opacity=".35" filter="url(#blur)"/>'
+    # ícone a flutuar (CSS transform numa <g> com transform-origin no centro do ícone)
+    cx, cy = x + tw / 2, ty + 72
+    body += (f'<g class="fl" style="transform-origin:{cx:.0f}px {cy:.0f}px;animation-delay:-{i*0.6:.1f}s">'
+             f'<g transform="translate({cx-isz/2:.1f},{cy-isz*234/240/2:.1f}) scale({isc:.4f})">{ic}</g></g>')
+    body += f'<rect x="{x:.0f}" y="{ty}" width="{tw:.0f}" height="{th}" rx="18" fill="url(#glass)"/></g>'
+    body += f'<rect x="{x:.0f}" y="{ty}" width="{tw:.0f}" height="{th}" rx="18" fill="none" stroke="#fff" stroke-opacity=".14"/>'
+    body += f'<text x="{x+tw/2:.0f}" y="{ty+th-22}" text-anchor="middle" style="font:600 12.5px {FONT};fill:#fff">{label}</text>'
+save("ferramentas.svg", svg(H, body, "Ferramentas: Premiere Pro, After Effects, Photoshop, Lightroom, Illustrator, InDesign, Audition e Figma", style))
+rnd.setstate(_st)
+
 # ---------- 3. método: corrente de água a ligar quatro passos com ondulações ----------
 H = 270; steps = [("01", "Percebemos o negócio", "antes de pegar na câmara"), ("02", "Decidimos tudo", "antes do dia da gravação"),
                   ("03", "Chegamos com tudo", "o que é preciso"), ("04", "Edição, cor", "e o botão de publicar")]

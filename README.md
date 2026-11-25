@@ -3,6 +3,8 @@
   <br><br>
   <a href="#"><img src="assets/servicos.svg" alt="Serviços: fotografia e vídeo, redes sociais, podcast e cortes, sites e plataformas" width="100%"></a>
   <br><br>
+  <a href="#"><img src="assets/ferramentas.svg" alt="Ferramentas: Premiere Pro, After Effects, Photoshop, Lightroom, Illustrator, InDesign, Audition e Figma" width="100%"></a>
+  <br><br>
   <a href="#"><img src="assets/metodo.svg" alt="Como trabalhamos: percebemos o negócio, decidimos tudo, chegamos com tudo, edição e publicação" width="100%"></a>
   <br><br>
   <a href="#"><img src="assets/projetos.svg" alt="Projetos: Piscobrilho e Worevi" width="100%"></a>
