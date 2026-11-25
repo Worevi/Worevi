@@ -9,6 +9,8 @@
   <br><br>
   <a href="#"><img src="assets/contacto.svg" alt="Contacto: geral@worevi.com, +351 910 861 499, worevi.com" width="100%"></a>
   <br><br>
+  <a href="#"><img src="assets/contribuicoes.svg" alt="Contribuições no GitHub nos últimos 12 meses" width="100%"></a>
+  <br><br>
   <a href="#"><img src="assets/footer.svg" alt="" width="100%"></a>
   <br><br>
   <sub><a href="mailto:geral@worevi.com">geral@worevi.com</a> · <a href="tel:+351910861499">+351 910 861 499</a> · <a href="https://worevi.com">worevi.com</a> · <a href="https://piscobrilho.com">piscobrilho.com</a></sub>
