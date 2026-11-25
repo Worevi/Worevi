@@ -11,8 +11,9 @@ rnd = random.Random(7)
 
 def wordmark():
     s = open(WM, encoding="latin-1").read()
-    ds = [re.sub(r"\s+", " ", d).strip() for d in re.findall(r'<path[^>]*?\bd="([^"]+)"', s)][:6]
-    return "".join(f'<path d="{d}"/>' for d in ds)          # caixa 1600×410, letras y 119–403
+    ds = [re.sub(r"\s+", " ", d).strip() for d in re.findall(r'<path[^>]*?\bd="([^"]+)"', s)][:7]
+    # 0–5 são as letras (y 119–403); 6 é a bola do i (y 0–92), em ouro como na marca; os restantes 53 são a linha pequena de serviços
+    return "".join(f'<path d="{d}"/>' for d in ds[:6]) + f'<path style="fill:{GOLD}" d="{ds[6]}"/>'
 def piscobrilho():
     s = open(PB, encoding="utf-8").read()
     vb = re.search(r'viewBox="([^"]+)"', s).group(1)
